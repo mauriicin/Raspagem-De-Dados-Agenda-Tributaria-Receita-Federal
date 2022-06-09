@@ -5,13 +5,13 @@ const cheerio = require('cheerio');
 const url =
 	'https://www.gov.br/receitafederal/pt-br/assuntos/agenda-tributaria/agenda-tributaria-2022/junho/declaracoes';
 
-request(url, function (error, response, html) {
+request(url, function (error, html) {
 	if (!error) {
 		var resultados = [];
 		var $ = cheerio.load(html);
 		$('.listing')
 			.find('tr')
-			.each(function (i) {
+			.each(function () {
 				var data = $(this).find('td').eq(0).text().trim();
 				var description = $(this).find('td').eq(1).text().trim();
                 var period = $(this).find('td').eq(2).text().trim();
@@ -28,7 +28,7 @@ request(url, function (error, response, html) {
 		fs.writeFile(
 			'dados.json',
 			JSON.stringify(resultados, null, 4),
-			function (err) {
+			function () {
 				console.log(
 					'Resultados salvos com sucesso! O arquivo está na raiz do projeto.'
 				);
